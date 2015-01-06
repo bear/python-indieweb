@@ -1,0 +1,19 @@
+{% extends "base.jinja" %}
+{% block content %}        
+<section id="articles" class="h-feed">
+{% for entry in entries %}
+{% include "article.jinja" %}
+{% endfor %}
+</section>
+
+<hr/>
+<footer>
+<div class="h-card">
+  <ul class="about">
+    <li><a href="/"><img class="u-photo" src="/images/bear_145x145.jpg" height="42" width="42"/></a></li>
+    <li>&copy; 2003-2015 by <a class="p-name u-url" href="/about">Mike Taylor</a></li>
+  </ul>
+  </ul>
+</div>
+</footer>
+{% endblock content %}

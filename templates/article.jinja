@@ -1,0 +1,14 @@
+<article class="post h-entry h-as-article">
+  <h3><a href="/{{entry.slug}}"><span class="p-name">{{entry.title}}</span></a></h3>
+  <p class="byline">
+    <a class="u-url" href="/{{entry.slug}}">
+      <time class="date dt-published" datetime="{{ entry.date.strftime("%Y-%m-%dT%H:%M:%SZ") }}">
+        {{ entry.date.strftime('%d %b %Y %H:%M') }}
+      </time>
+    </a>
+    by <a class="p-author h-card" href="http://127.0.0.1">bear <img src="http://bear.im/bear_145x145.jpg" alt="" style="display:none"/></a>
+  </p>
+  <div class="e-content">
+    <p>{{entry.text}}</p>
+  </div>
+</article>
