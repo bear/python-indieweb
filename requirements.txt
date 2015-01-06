@@ -1,0 +1,10 @@
+requests>=2.5.0
+beautifulsoup4>=4.3.2
+pyOpenSSL>=0.13.1
+pyasn1>=0.1.7
+ndg-httpsclient>=0.3.2
+mf2py>=0.2.1
+flask==0.10.1
+flask-wtf==0.10.0
+ronkyuu>=0.2.11
+ninka>=0.1.3
