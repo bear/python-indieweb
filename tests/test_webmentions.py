@@ -16,14 +16,13 @@ class TestEndpoint(unittest.TestCase):
 
 class TestWebmention(unittest.TestCase):
     def runTest(self):
-        result = ronkyuu.discoverEndpoint('http://localhost:9999')
+        status_code, webmention_url = ronkyuu.discoverEndpoint('http://localhost:9999')
 
-        assert result[0] == 200
-        assert result[1] == 'http://localhost:9999/webmention'
+        assert status_code == 200
 
-        status_code = ronkyuu.sendWebmention('http://boathole.org/testing', 'http://localhost:9999/article2', result[1])
+        result = ronkyuu.sendWebmention('http://boathole.org/testing', 'http://localhost:9999/article2', webmention_url)
 
-        print status_code
+        assert result.status_code == 200
 
 # if __name__ == '__main__':
 #     parser = argparse.ArgumentParser()
