@@ -58,7 +58,7 @@ app.config['SECRET_KEY'] = 'foo'  # replaced downstream
 cfg = None
 db  = None
 templateData = {}
-
+entries      = []
 
 def baseDomain(domain, includeScheme=True):
     """Return only the network location portion of the given domain
@@ -348,13 +348,13 @@ def handleToken():
             return (urllib.urlencode(params), 200, {'Content-Type': 'application/x-www-form-urlencoded'})
 
 def validURL(targetURL):
-    """Validate the target URL exists by making a HEAD request for it
+    """Validate the target URL exists.
+
+    In a real app you would need to do a database lookup or a HEAD request, here we just check the URL
     """
-    result = 404
-    try:
-        r = requests.head(targetURL)
-        result = r.status_code
-    except:
+    if '/article' in targetURL:
+        result = 200
+    else:
         result = 404
     return result
 
@@ -487,6 +487,20 @@ def handleWebmention():
         else:
             return 'invalid post', 404
 
+@app.route('/article<article>', methods=['GET'])
+def handleArticles(article):
+    app.logger.info('handleArticles %s article%s' % (request.method, article))
+
+    templateData['entries'] = entries
+    return render_template('index.jinja', **templateData)
+
+@app.route('/', methods=['GET'])
+def handleRoot():
+    app.logger.info('handleRoot [%s]' % request.method)
+
+    templateData['entries'] = entries
+    return render_template('index.jinja', **templateData)
+
 def initLogging(logger, logpath=None, echo=False):
     logFormatter = logging.Formatter("%(asctime)s %(levelname)-9s %(message)s", "%Y-%m-%d %H:%M:%S")
 
@@ -549,8 +563,8 @@ def doStart(app, configFile, ourHost=None, ourPort=None, ourBasePath=None, ourPa
     _cfg = loadConfig(configFile, host=ourHost, port=ourPort, basepath=ourBasePath, logpath=ourPath)
     _db  = None
     if 'secret' in _cfg:
-        app.config['SECRET_KEY'] = _cfg['secret']
-    initLogging(app.logger, _cfg[.logpath, echo=echo)
+        app.config['SECRET_KEY'] = _cfg.secret
+    initLogging(app.logger, _cfg.logpath, echo=echo)
     if 'redis' in _cfg:
         _db = getRedis(_cfg.redis)
     return _cfg, _db
@@ -575,5 +589,12 @@ if __name__ == '__main__':
 
     cfg, db = doStart(app, args.config, args.host, args.port, args.basepath, args.logpath, echo=True)
     templateData = buildTemplateContext(cfg)
+
+    for i in range(1, 3):
+        entries.append({ 'title': 'Article %d' % i,
+                         'slug':  'article%d' % i,
+                         'date':  datetime.datetime(2015,1,i, 10, 0, 0),
+                         'text':  'test article %d' % i
+                       })
 
     app.run(host=cfg.host, port=cfg.port, debug=True)

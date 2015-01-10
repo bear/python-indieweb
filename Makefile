@@ -7,3 +7,6 @@ endif
 init: venv
 	pip install wheel
 	pip install nose
+
+test:
+	nosetests --verbosity=2 tests
