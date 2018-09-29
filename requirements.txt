@@ -8,3 +8,4 @@ flask==0.10.1
 flask-wtf==0.10.0
 ronkyuu>=0.2.11
 ninka>=0.1.3
+redis>=2.10.3
