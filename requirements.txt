@@ -4,7 +4,7 @@ pyOpenSSL>=0.13.1
 pyasn1>=0.1.7
 ndg-httpsclient>=0.3.2
 mf2py>=0.2.1
-flask==0.12.3
+flask==1.0
 flask-wtf==0.10.0
 ronkyuu>=0.2.11
 ninka>=0.1.3
